@@ -23,7 +23,7 @@ contador = 1 + 0
 user = customtkinter.StringVar(app)
 contra=customtkinter.StringVar(app)
 
-usuarionuevo=customtkinter.StringVar(app)
+correonuevo=customtkinter.StringVar(app)
 
 nombrecreado=customtkinter.StringVar(app)
 correocreado=customtkinter.StringVar(app)
@@ -89,7 +89,12 @@ def aparecer():
 
 def iniciosesion():
     #cuando se da click al boton de iniciar sesion, se ejecuta esto
-    print("hey")
+    textoinicio.place_forget()
+    usuario.place_forget()
+    contraseña.place_forget()
+    BotonInicio.place_forget()
+    olvidaste.place_forget()
+    BotonCrear.place_forget()
 
 def cambiardatos():
 #Se ejecuta cuando se da al boton de que se olvido la contraseña
@@ -98,9 +103,10 @@ def cambiardatos():
         alerta.destroy()
         alerta.update()
     alerta = customtkinter.CTkToplevel()
-    A12= customtkinter.CTkLabel(master = alerta,text="Inserte su usuario", font=("Helvetica",12), fg_color='transparent')
-    boto = customtkinter.CTkButton(master = alerta, text="Recuperar credenciales",command=cambioAccion)
-    usuarioolvido = customtkinter.CTkEntry(master = alerta,corner_radius=50,textvariable=usuarionuevo)
+    alerta.title("Recuperar contraseña")
+    A12= customtkinter.CTkLabel(master = alerta,text="Inserte su correo", font=("Helvetica",12), fg_color='transparent')
+    boto = customtkinter.CTkButton(master = alerta, text="Recuperar contraseña",command=cambioAccion)
+    usuarioolvido = customtkinter.CTkEntry(master = alerta,corner_radius=50,textvariable=correonuevo)
     A12.pack(pady=10)
     usuarioolvido.pack(pady=10)
     boto.pack(pady=10)
@@ -109,24 +115,22 @@ def crearUsuario():
 #Se ejecuta cuando se da al boton de crear usuario 
     def cambioAccion():
         #Se ejecuta cuando se da al boton de recuperar credenciales, cierra la ventana pop up
+        
         alerta.destroy()
         alerta.update()
     alerta = customtkinter.CTkToplevel()
+    alerta.title("Crear usuario")
     boto = customtkinter.CTkButton(master = alerta, text="Crear",command=cambioAccion)
     A1= customtkinter.CTkLabel(master = alerta,text="Inserte nombre", font=("Helvetica",12), fg_color='transparent')
     nombredatosnuevo = customtkinter.CTkEntry(master = alerta,corner_radius=50,textvariable=nombrecreado)
     A2= customtkinter.CTkLabel(master = alerta,text="Inserte correo", font=("Helvetica",12), fg_color='transparent')
     correodatosnuevo = customtkinter.CTkEntry(master = alerta,corner_radius=50,textvariable=correocreado)
-    A3= customtkinter.CTkLabel(master = alerta,text="Inserte usuario", font=("Helvetica",12), fg_color='transparent')
-    usuariodatosnuevo = customtkinter.CTkEntry(master = alerta,corner_radius=50,textvariable=usuariocreado)
     A4= customtkinter.CTkLabel(master = alerta,text="Inserte contraseña", font=("Helvetica",12), fg_color='transparent')
     contradatosnuevo = customtkinter.CTkEntry(master = alerta,corner_radius=50,textvariable=contracreado)
     A1.pack(pady=10)
     nombredatosnuevo.pack(pady=10)
     A2.pack(pady=10)
     correodatosnuevo.pack(pady=10)
-    A3.pack(pady=10)
-    usuariodatosnuevo.pack(pady=10)
     A4.pack(pady=10)
     contradatosnuevo.pack(pady=10)
     boto.pack(pady=10)
