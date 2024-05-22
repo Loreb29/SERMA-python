@@ -8,7 +8,7 @@ import time
 
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("blue")
-
+itipo=0
 app = customtkinter.CTk()
 app.attributes("-fullscreen", True)
 Width = app.winfo_screenwidth()
@@ -57,6 +57,11 @@ contador = 1 + 0
 #    t = threading.Timer(3, entras)
 #    huellaCargalabel.place(relx=0.45, y=550)
 #    t.start()
+user = customtkinter.StringVar(app)
+contra=customtkinter.StringVar(app)
+
+usuarionuevo=customtkinter.StringVar(app)
+contranueva=customtkinter.StringVar(app)
 
 iniciarEst = customtkinter.CTkLabel(app,text="Inicio de sesión\nusuario", font=("Helvetica",38), fg_color='transparent')
 iniciarEst.place(relx=0.06, y=150)
@@ -64,7 +69,10 @@ iniciarEst.place(relx=0.06, y=150)
 iniciarDoc = customtkinter.CTkLabel(app,text="Inicio de sesión\ndocente", font=("Helvetica",38), fg_color='transparent')
 iniciarDoc.place(relx=0.76, y=150)
 
-user = customtkinter.StringVar(app)
+textoinicio = customtkinter.CTkLabel(app,text="Ingresa tus datos", font=("Helvetica",38), fg_color='transparent')
+usuario = customtkinter.CTkEntry(app,corner_radius=50,textvariable=stringBuscador)
+contraseña = customtkinter.CTkEntry(app, placeholder_text="Ingresa tu contraseña",corner_radius=50,show="*",textvariable=contra)
+
 #contra = customtkinter.StringVar(app)
 
 
@@ -94,19 +102,71 @@ Contraseñalabel = customtkinter.CTkLabel(app, text="Contraseña", font=("Helvet
 #    f.close()
     
 def estudianteEntrar():
-    print("uy")
+#Este ese ejecuta cuando se da click al boton para ingresar como estudiante
+    itipo=0
+    aparecer()
 
 def docenteEntrar():
-    print("uy")
+#Este ese ejecuta cuando se da click al boton para ingresar como docente
+    itipo=1
+    aparecer()
+
+def aparecer():
+    labelSERMA.place_forget()
+    BotonDoc.place_forget()
+    BotonEst.place_forget()
+    labelDoc.place_forget()
+    labelEst.place_forget()
+    iniciarDoc.place_forget()
+    iniciarEst.place_forget()
+    textoinicio.place(relx=0.4, y=130)
+    usuario.place(relx=0.45, y=250)
+    contraseña.place(relx=0.45, y=280)
+    BotonInicio.place(relx=0.45, y=320)
+    olvidaste.place(relx=0.45, y=370)
+#aparece los elementos de la interfaz para inicio de sesión
+
+def iniciosesion():
+    print("hey")
+
+def cambiardatos():
+#Se ejecuta cuando se da al boton de que se olvido la contraseña
+    def cambioAccion():
+        #Se ejecuta cuando se da al boton de cambiar credenciales, cierra la ventana pop up
+        alerta.destroy()
+        alerta.update()
+    alerta = customtkinter.CTkToplevel()
+    boto = customtkinter.CTkButton(master = alerta, text="Cambiar credenciales",command=cambioAccion)
+    usuarioolvido = customtkinter.CTkEntry(master = alerta,corner_radius=50,textvariable=usuarionuevo)
+    contraseñaolvido = customtkinter.CTkEntry(master = alerta, placeholder_text="Ingresa tu contraseña",corner_radius=50,show="*",textvariable=contranueva)
+    usuarioolvido.pack(pady=10)
+    contraseñaolvido.pack(pady=10)
+    boto.pack(pady=10)
+    
+
+
 
 BotonEst = customtkinter.CTkButton(master = app, text="Ingresar", command=estudianteEntrar)
 BotonEst.place(relx=0.1, y=600)
 
+BotonInicio = customtkinter.CTkButton(master = app, text="Iniciar sesion", command=iniciosesion)
+
+olvidaste = customtkinter.CTkButton(master = app, text="¿Olvidaste tus datos?", command=cambiardatos)
+
 BotonDoc = customtkinter.CTkButton(master = app, text="Ingresar", command=docenteEntrar)
 BotonDoc.place(relx=0.8, y=600)
+
 ImgSERMA = customtkinter.CTkImage(light_image=Image.open("image\\SERMA.png"),size=(300,300))
 labelSERMA = customtkinter.CTkLabel(app, text="" , image=ImgSERMA, height=30, width=30)
 labelSERMA.place(relx=0.38, y=150)
+
+ImgDoc = customtkinter.CTkImage(light_image=Image.open("image\\profesor.png"),size=(250,250))
+labelDoc = customtkinter.CTkLabel(app, text="" , image=ImgDoc, height=30, width=30)
+labelDoc.place(relx=0.77, y=270)
+
+ImgEst= customtkinter.CTkImage(light_image=Image.open("image\\estudiante.png"),size=(250,250))
+labelEst = customtkinter.CTkLabel(app, text="" , image=ImgEst, height=30, width=30)
+labelEst.place(relx=0.07, y=270)
 
 #def escritorio():
 #    bienvenido.place_forget()
