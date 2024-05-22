@@ -9,9 +9,12 @@ import time
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("blue")
 itipo=0
+cuenta=False
 #IMPORTANTE, itipo define si es docente o estudiante
 app = customtkinter.CTk()
 app.attributes("-fullscreen", True)
+app.title("SERMA")
+app.after(201, lambda :app.iconbitmap('image\\SERMA.ico'))
 Width = app.winfo_screenwidth()
 Height= app.winfo_screenheight()
 bienvenido = customtkinter.CTkLabel(app,text="Bienvenido a SERMA", font=("Helvetica",80))
@@ -42,7 +45,8 @@ usuario = customtkinter.CTkEntry(app,corner_radius=50,textvariable=stringBuscado
 contraseña = customtkinter.CTkEntry(app, placeholder_text="Ingresa tu contraseña",corner_radius=50,show="*",textvariable=contra)
 
 Contraseñalabel = customtkinter.CTkLabel(app, text="Contraseña", font=("Helvetica",24) )
-
+materr= customtkinter.CTkLabel(master = app,text="Materias", font=("Helvetica",20), fg_color='transparent')
+guiass= customtkinter.CTkLabel(master = app,text="Materias", font=("Helvetica",20), fg_color='transparent')
 #def creartexto():
 #    button.place_forget()
 #    buttondoc.place_forget()
@@ -61,13 +65,39 @@ Contraseñalabel = customtkinter.CTkLabel(app, text="Contraseña", font=("Helvet
 #    print(escrit.find('#'))
 #    f.close()
     
+def devolverse():
+    if cuenta==True:
+        listamaterias.place_forget()
+        listaguias.place_forget()
+        crearmat.place_forget()
+    else:
+        print("HMM")
+    materr.place_forget()
+    guiass.place_forget()
+    textoinicio.place_forget()
+    usuario.place_forget()
+    contraseña.place_forget()
+    BotonInicio.place_forget()
+    olvidaste.place_forget()
+    BotonCrear.place_forget()
+    BotonDevolverse.place_forget()
+    labelSERMA.place(relx=0.38, y=150)
+    BotonDoc.place(relx=0.8, y=600)
+    BotonEst.place(relx=0.1, y=600)
+    labelDoc.place(relx=0.77, y=270)
+    labelEst.place(relx=0.07, y=270)
+    iniciarDoc.place(relx=0.76, y=150)
+    iniciarEst.place(relx=0.06, y=150)
+  
 def estudianteEntrar():
 #Este ese ejecuta cuando se da click al boton para ingresar como estudiante
+    global itipo
     itipo=0
     aparecer()
 
 def docenteEntrar():
 #Este ese ejecuta cuando se da click al boton para ingresar como docente
+    global itipo
     itipo=1
     aparecer()
 
@@ -86,15 +116,50 @@ def aparecer():
     BotonInicio.place(relx=0.45, y=320)
     olvidaste.place(relx=0.45, y=370)
     BotonCrear.place(relx=0.45, y=420)
+    BotonDevolverse.place(relx=0.85, y=20)
+
+def crearmateria():
+    print("uuu")
 
 def iniciosesion():
     #cuando se da click al boton de iniciar sesion, se ejecuta esto
+    def añadirguias():
+        #aca añadir las guias con un for
+        print ("...")
+    global listamaterias
+    global listaguias
+    global crearmat
+    global cuenta
+    cuenta=True
+    tituloguia="default"
+    textoguia="default"
     textoinicio.place_forget()
     usuario.place_forget()
     contraseña.place_forget()
     BotonInicio.place_forget()
     olvidaste.place_forget()
     BotonCrear.place_forget()
+    if itipo==1:
+        listamaterias=customtkinter.CTkScrollableFrame(app,height=650)
+        listaguias=customtkinter.CTkScrollableFrame(app,height=650)
+    else:
+        listamaterias=customtkinter.CTkScrollableFrame(app,height=640)
+        listaguias=customtkinter.CTkScrollableFrame(app,height=640)
+    crearmat=customtkinter.CTkButton(master=app,text="Crear materia",command=crearmateria)
+    #aca añadir las materias con un for
+    if itipo==1:
+        listamaterias.place(relx=0.01, y=90)
+        listaguias.place(relx=0.2,y=90)
+        materr.place(relx=0.06, y=60)
+        guiass.place(relx=0.25,y=60)
+        crearmat.place(relx=0.035, y=20)
+    else:
+        materr.place(relx=0.06, y=40)
+        listamaterias.place(relx=0.01, y=70)
+        listaguias.place(relx=0.2,y=70)
+        guiass.place(relx=0.25,y=40)
+    
+
 
 def cambiardatos():
 #Se ejecuta cuando se da al boton de que se olvido la contraseña
@@ -102,8 +167,10 @@ def cambiardatos():
         #Se ejecuta cuando se da al boton de recuperar credenciales, cierra la ventana pop up
         alerta.destroy()
         alerta.update()
+    global correonuevo
     alerta = customtkinter.CTkToplevel()
     alerta.title("Recuperar contraseña")
+    alerta.after(201, lambda :alerta.iconbitmap('image\\SERMA.ico'))
     A12= customtkinter.CTkLabel(master = alerta,text="Inserte su correo", font=("Helvetica",12), fg_color='transparent')
     boto = customtkinter.CTkButton(master = alerta, text="Recuperar contraseña",command=cambioAccion)
     usuarioolvido = customtkinter.CTkEntry(master = alerta,corner_radius=50,textvariable=correonuevo)
@@ -118,8 +185,12 @@ def crearUsuario():
         
         alerta.destroy()
         alerta.update()
+    global nombrecreado
+    global correocreado
+    global contracreado
     alerta = customtkinter.CTkToplevel()
     alerta.title("Crear usuario")
+    alerta.after(201, lambda :alerta.iconbitmap('image\\SERMA.ico'))
     boto = customtkinter.CTkButton(master = alerta, text="Crear",command=cambioAccion)
     A1= customtkinter.CTkLabel(master = alerta,text="Inserte nombre", font=("Helvetica",12), fg_color='transparent')
     nombredatosnuevo = customtkinter.CTkEntry(master = alerta,corner_radius=50,textvariable=nombrecreado)
@@ -148,6 +219,7 @@ BotonDoc.place(relx=0.8, y=600)
 
 BotonCrear=customtkinter.CTkButton(master = app, text="Crear cuenta", command=crearUsuario)
 
+BotonDevolverse=customtkinter.CTkButton(master = app, text="Volver al inicio", command=devolverse)
 ImgSERMA = customtkinter.CTkImage(light_image=Image.open("image\\SERMA.png"),size=(300,300))
 labelSERMA = customtkinter.CTkLabel(app, text="" , image=ImgSERMA, height=30, width=30)
 labelSERMA.place(relx=0.38, y=150)
@@ -159,6 +231,7 @@ labelDoc.place(relx=0.77, y=270)
 ImgEst= customtkinter.CTkImage(light_image=Image.open("image\\estudiante.png"),size=(250,250))
 labelEst = customtkinter.CTkLabel(app, text="" , image=ImgEst, height=30, width=30)
 labelEst.place(relx=0.07, y=270)
+
 
 
 app.mainloop()
