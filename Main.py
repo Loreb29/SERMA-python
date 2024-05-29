@@ -24,7 +24,7 @@ buscador = customtkinter.CTkEntry(app,corner_radius=50,textvariable=stringBuscad
 contador = 1 + 0
 
 user = customtkinter.StringVar(app)
-contra=customtkinter.StringVar(app)
+contra=""
 
 correonuevo=customtkinter.StringVar(app)
 
@@ -88,6 +88,7 @@ def devolverse():
     labelEst.place(relx=0.07, y=270)
     iniciarDoc.place(relx=0.76, y=150)
     iniciarEst.place(relx=0.06, y=150)
+    print(contra)
   
 def estudianteEntrar():
 #Este ese ejecuta cuando se da click al boton para ingresar como estudiante
@@ -113,6 +114,8 @@ def aparecer():
     textoinicio.place(relx=0.4, y=130)
     usuario.place(relx=0.45, y=250)
     contraseña.place(relx=0.45, y=280)
+
+    
     BotonInicio.place(relx=0.45, y=320)
     olvidaste.place(relx=0.45, y=370)
     BotonCrear.place(relx=0.45, y=420)
