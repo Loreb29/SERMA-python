@@ -32,7 +32,8 @@ nombrecreado=customtkinter.StringVar(app)
 correocreado=customtkinter.StringVar(app)
 usuariocreado= customtkinter.StringVar(app)
 contracreado=customtkinter.StringVar(app)
-
+tareaa=customtkinter.StringVar(app)
+tareaa.set("XD")
 
 iniciarEst = customtkinter.CTkLabel(app,text="Inicio de sesión\nusuario", font=("Helvetica",38), fg_color='transparent')
 iniciarEst.place(relx=0.06, y=150)
@@ -46,7 +47,8 @@ contraseña = customtkinter.CTkEntry(app, placeholder_text="Ingresa tu contrase�
 Contraseñalabel = customtkinter.CTkLabel(app, text="Contraseña", font=("Helvetica",24) )
 materr= customtkinter.CTkLabel(master = app,text="Materias", font=("Helvetica",20), fg_color='transparent')
 guiass= customtkinter.CTkLabel(master = app,text="Guias", font=("Helvetica",20), fg_color='transparent')
-    
+descripcion=customtkinter.CTkLabel(app,text="Desc Guia", font=("Helvetica",38), fg_color='transparent')
+tarea=customtkinter.CTkLabel(app,text="Desc Guia", font=("Helvetica",38), fg_color='transparent')
 def devolverse():
     if cuenta==True:
         listamaterias.place_forget()
@@ -90,6 +92,8 @@ def aparecer():
     labelEst.place_forget()
     iniciarDoc.place_forget()
     iniciarEst.place_forget()
+    descripcion.place_forget()
+    tarea.place_forget()
     textoinicio.place(relx=0.4, y=130)
     usuario.place(relx=0.45, y=250)
     contraseña.place(relx=0.45, y=280)
@@ -98,22 +102,31 @@ def aparecer():
     BotonCrear.place(relx=0.45, y=420)
     BotonDevolverse.place(relx=0.85, y=20)
 
-def crearmateria():
-    print("uuu")
-
 def iniciosesion():
     #cuando se da click al boton de iniciar sesion, se ejecuta esto
     global usuario
     global contraseña
     global user
     global contra
+    global descripcion
+    global tarea
+    global tareaa
+    bru="123"
     user=usuario.get()
     contra=contraseña.get()
     valido=firebase.login(user,contra)
-    def añadirguias():
+    def crearmateria():
+        #aca crear materias nuevas
+        #tarea.configure(text="Encontrar palabras magicas")
+        #tarea.update()
+        #print(tarea.cget("text")) Con esto consigo el text
+        #lambda: para que tenga parametros
+        print("Huh")
+    def añadirguias(x):
         #aca añadir las guias con un for
-        print ("...")
+        print (x)
     def finmen():
+        #se cierra el pop up de mal inicio de sesión
         alerta.destroy()
         alerta.update()
     if valido:
@@ -131,6 +144,8 @@ def iniciosesion():
         BotonCrear.place_forget()
         #BotonDevolverse.configure(text="Hm")Cambiar texto
         #BotonDevolverse.update()
+        descripcion.place(relx=0.6, y=200)
+        tarea.place(relx=0.6, y=400)
         if itipo==1:
             listamaterias=customtkinter.CTkScrollableFrame(app,height=650)
             listaguias=customtkinter.CTkScrollableFrame(app,height=650)
@@ -139,7 +154,8 @@ def iniciosesion():
             listaguias=customtkinter.CTkScrollableFrame(app,height=640)
         crearmat=customtkinter.CTkButton(master=app,text="Crear materia",command=crearmateria)
         #aca añadir las materias con un for
-        
+        for x in range (3):
+            customtkinter.CTkButton(listamaterias,text="Materia %s"%(x+1),command= lambda:añadirguias(x)).pack(pady=10)
         if itipo==1:
             listamaterias.place(relx=0.01, y=90)
             listaguias.place(relx=0.2,y=90)
@@ -160,9 +176,6 @@ def iniciosesion():
         Mensaj.pack(pady=10)
         But.pack(pady=10)
         
-    
-
-
 def cambiardatos():
 #Se ejecuta cuando se da al boton de que se olvido la contraseña
     def cambioAccion():
