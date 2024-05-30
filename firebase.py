@@ -12,12 +12,11 @@ firebaseConfig={
     "appId": "1:313118845898:web:5081165c3c222ea4a97d33"
 }
 
+
 #Variables inciales de la base de datos y autentificación   
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
 db = firebase.database()
-
-
 
 
 #Metodo para crear usuario e ingresar sus datos en la base de datos
@@ -34,8 +33,8 @@ def crearUsuario(email, password, nombre , docente):
 
 #Ingresa a la base de datos los datos personales de nuestro usuario tomando como clave la idLocal
 def ingresarDatos(user, nombre, docente):
-    
-    db.child("user").child(user).set({ 'nombre':nombre, 'docente':docente } )  
+    if( docente == 0):
+        db.child("user").child(user).set({ 'nombre':nombre, 'docente':docente } )  
 
 
 
@@ -49,16 +48,41 @@ def login(email, password):
         return False
     
 
+def crearMateria(materia):
+    try:   
+        db.child("materia").set(materia)
+    except:
+        print("La materia ya existe")
+
+
+
+
+
 
 # Metodo sin revisar
-def crearGuia():
+def crearGuia(materia):
+    result = db.coll
     data = {"guia1":{"descricion":"The world magic", "tarea":"Encontrar palabras magicas"}}
-    db.child("materia").child("inglés").set(data)
+    db.child("materia").child(materia).set(data)
 
 
-
+#Consulta y devuelve un arreglo con el nombre de las materias 
+def consultarMaterias():
+    user = db.child("materia").get()
+    a = []
+    for u in user.each():
+        a.append(u.key())
     
-        
+    return a
+
+
+
+
+
+
+
+
+   
    
 
   
