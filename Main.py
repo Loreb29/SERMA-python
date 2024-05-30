@@ -1,11 +1,6 @@
-import tkinter
-import customtkinter , os
+import customtkinter
 from PIL import Image
-from PIL import ImageOps
-from PIL import ImageDraw
-import firebase
-import threading
-import time
+import logica
 
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("blue")
@@ -19,9 +14,6 @@ app.after(201, lambda :app.iconbitmap('image\\SERMA.ico'))
 Width = app.winfo_screenwidth()
 Height= app.winfo_screenheight()
 bienvenido = customtkinter.CTkLabel(app,text="Bienvenido a SERMA", font=("Helvetica",80))
-botonIniciar = customtkinter.CTkButton(master = app, text="Iniciar")
-stringBuscador = ""
-buscador = customtkinter.CTkEntry(app,corner_radius=50,textvariable=stringBuscador, width=200 )
 
 user = customtkinter.StringVar(app)
 contra=customtkinter.StringVar(app)
@@ -32,8 +24,7 @@ nombrecreado=customtkinter.StringVar(app)
 correocreado=customtkinter.StringVar(app)
 usuariocreado= customtkinter.StringVar(app)
 contracreado=customtkinter.StringVar(app)
-tareaa=customtkinter.StringVar(app)
-tareaa.set("XD")
+
 
 iniciarEst = customtkinter.CTkLabel(app,text="Inicio de sesión\nusuario", font=("Helvetica",38), fg_color='transparent')
 iniciarEst.place(relx=0.06, y=150)
@@ -114,7 +105,7 @@ def iniciosesion():
     bru="123"
     user=usuario.get()
     contra=contraseña.get()
-    valido=firebase.login(user,contra)
+    valido=logica.login(user,contra)
     def crearmateria():
         #aca crear materias nuevas
         #tarea.configure(text="Encontrar palabras magicas")
@@ -152,7 +143,7 @@ def iniciosesion():
             listaguias=customtkinter.CTkScrollableFrame(app,height=640)
         crearmat=customtkinter.CTkButton(master=app,text="Crear materia",command=crearmateria)
         #aca añadir las materias con un for
-        listaa=firebase.consultarMaterias()
+        listaa=logica.consultarMaterias()
         for x in range (len(listaa)):
             customtkinter.CTkButton(listamaterias,text=listaa[x],command= lambda:añadirguias(listaa[x])).pack(pady=10)
         descripcion.place(relx=0.6, y=200)
@@ -215,7 +206,7 @@ def crearUsuario():
         nombrecreado=nombredatosnuevo.get()
         correocreado=correodatosnuevo.get()
         contracreado=contradatosnuevo.get()
-        firebase.crearUsuario(correocreado,contracreado,nombrecreado,itipo)
+        logica.crearUsuario(correocreado,contracreado,nombrecreado,itipo)
         alerta.destroy()
         alerta.update()
     boto = customtkinter.CTkButton(master = alerta, text="Crear",command=cambioAccion)
