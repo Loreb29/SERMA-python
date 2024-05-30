@@ -1,6 +1,7 @@
 
 import pyrebase
 
+#Autenticación de la base de datos
 firebaseConfig={
     "apiKey": "AIzaSyAxNfMqdzjGirpGok1RlOwOI-f8W_ACG_Q",
     "authDomain": "serma-8c60c.firebaseapp.com",
@@ -11,29 +12,56 @@ firebaseConfig={
     "appId": "1:313118845898:web:5081165c3c222ea4a97d33"
 }
 
-
+#Variables inciales de la base de datos y autentificación   
 firebase = pyrebase.initialize_app(firebaseConfig)
-
+auth = firebase.auth()
 db = firebase.database()
 
-data = {"guia1":{"descricion":"The world magic", "tarea":"Encontrar palabras magicas"}}
-
-db.child("materia").child("inglés").set(data)
 
 
 
-def crearUsuario(correo, contrasena, nombre , docente):
-    user= auth.create_user(email=correo, password= contrasena)
-    ingresarDatos(format(user.uid), nombre, docente)
+#Metodo para crear usuario e ingresar sus datos en la base de datos
+def crearUsuario(email, password, nombre , docente):
+
+    try:
+        user = auth.create_user_with_email_and_password(email= email, password=password)
+        ingresarDatos(format(user['localId']), nombre, docente)
+    except:
+       print("El usuario ya existe")
 
 
 
+
+#Ingresa a la base de datos los datos personales de nuestro usuario tomando como clave la idLocal
 def ingresarDatos(user, nombre, docente):
-    ref = db.reference('user')
-    user = ref.child(user).set(
-        {
-            'nombre':nombre,
-            'docente':docente
-        }
     
-    )    
+    db.child("user").child(user).set({ 'nombre':nombre, 'docente':docente } )  
+
+
+
+#Inicio de sesión que retorna False o True
+def login(email, password):
+    try:
+        user = auth.sign_in_with_email_and_password(email= email, password=password)
+        return True
+    except:
+        print("Credenciales incorrectas")
+        return False
+    
+
+
+# Metodo sin revisar
+def crearGuia():
+    data = {"guia1":{"descricion":"The world magic", "tarea":"Encontrar palabras magicas"}}
+    db.child("materia").child("inglés").set(data)
+
+
+
+    
+        
+   
+
+  
+#login("Cristian@gmail.com","123")
+
+#crearUsuario("Cristian@gmail.com","123456","Cristian", "1")
