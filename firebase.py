@@ -19,3 +19,21 @@ db = firebase.database()
 data = {"guia1":{"descricion":"The world magic", "tarea":"Encontrar palabras magicas"}}
 
 db.child("materia").child("inglés").set(data)
+
+
+
+def crearUsuario(correo, contrasena, nombre , docente):
+    user= auth.create_user(email=correo, password= contrasena)
+    ingresarDatos(format(user.uid), nombre, docente)
+
+
+
+def ingresarDatos(user, nombre, docente):
+    ref = db.reference('user')
+    user = ref.child(user).set(
+        {
+            'nombre':nombre,
+            'docente':docente
+        }
+    
+    )    
