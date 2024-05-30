@@ -81,7 +81,7 @@ def consultarGuia(materia):
 
 def consultarDatosGuia(materia, guia):
     lista = db.child("materia").child(materia).child(guia).get()  
-
+    return crearArreglo(lista)
 
 #Genera un arreglo con los nombre del objeto que pasa
 def crearArreglo(objeto):
@@ -91,7 +91,16 @@ def crearArreglo(objeto):
     
     return arreglo
 
+#Genera un arreglo con los nombre del objeto que pasa
+def crearObjecto(objeto):
+    arreglo = []
+    for u in objeto.each():
+        arreglo.append(u.val())
+    
+    return arreglo
 
+
+print(consultarDatosGuia("ciencias","guia 1"))
 
 
 
