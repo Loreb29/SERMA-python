@@ -74,9 +74,13 @@ def consultarMaterias():
 
 
 #Consulta y devuelve un arreglo con el nombre de las guias
-def consultarMaterias(materia):
+def consultarGuia(materia):
     lista = db.child("materia").child(materia).get()    
     return crearArreglo(lista)
+
+
+def consultarDatosGuia(materia, guia):
+    lista = db.child("materia").child(materia).child(guia).get()  
 
 
 #Genera un arreglo con los nombre del objeto que pasa
