@@ -144,8 +144,6 @@ def iniciosesion():
         BotonCrear.place_forget()
         #BotonDevolverse.configure(text="Hm")Cambiar texto
         #BotonDevolverse.update()
-        descripcion.place(relx=0.6, y=200)
-        tarea.place(relx=0.6, y=400)
         if itipo==1:
             listamaterias=customtkinter.CTkScrollableFrame(app,height=650)
             listaguias=customtkinter.CTkScrollableFrame(app,height=650)
@@ -154,8 +152,11 @@ def iniciosesion():
             listaguias=customtkinter.CTkScrollableFrame(app,height=640)
         crearmat=customtkinter.CTkButton(master=app,text="Crear materia",command=crearmateria)
         #aca añadir las materias con un for
-        for x in range (3):
-            customtkinter.CTkButton(listamaterias,text="Materia %s"%(x+1),command= lambda:añadirguias(x)).pack(pady=10)
+        listaa=firebase.consultarMaterias()
+        for x in range (len(listaa)):
+            customtkinter.CTkButton(listamaterias,text=listaa[x],command= lambda:añadirguias(listaa[x])).pack(pady=10)
+        descripcion.place(relx=0.6, y=200)
+        tarea.place(relx=0.6, y=400)
         if itipo==1:
             listamaterias.place(relx=0.01, y=90)
             listaguias.place(relx=0.2,y=90)
