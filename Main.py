@@ -6,6 +6,7 @@ customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("blue")
 itipo=0
 cuenta=False
+fit=False
 #IMPORTANTE, itipo define si es docente o estudiante
 app = customtkinter.CTk()
 app.attributes("-fullscreen", True)
@@ -39,7 +40,7 @@ Contraseñalabel = customtkinter.CTkLabel(app, text="Contraseña", font=("Helvet
 materr= customtkinter.CTkLabel(master = app,text="Materias", font=("Helvetica",20), fg_color='transparent')
 guiass= customtkinter.CTkLabel(master = app,text="Guias", font=("Helvetica",20), fg_color='transparent')
 descripcion=customtkinter.CTkLabel(app,text="Desc Guia", font=("Helvetica",38), fg_color='transparent')
-tarea=customtkinter.CTkLabel(app,text="Desc Guia", font=("Helvetica",38), fg_color='transparent')
+tarea=customtkinter.CTkLabel(app,text="Tarea Guia", font=("Helvetica",25), fg_color='transparent')
 def devolverse():
     if cuenta==True:
         listamaterias.place_forget()
@@ -54,6 +55,8 @@ def devolverse():
     olvidaste.place_forget()
     BotonCrear.place_forget()
     BotonDevolverse.place_forget()
+    descripcion.place_forget()
+    tarea.place_forget()
     labelSERMA.place(relx=0.38, y=150)
     BotonDoc.place(relx=0.8, y=600)
     BotonEst.place(relx=0.1, y=600)
@@ -102,17 +105,26 @@ def iniciosesion():
     global descripcion
     global tarea
     global tareaa
-    bru="123"
     user=usuario.get()
     contra=contraseña.get()
     valido=logica.login(user,contra)
     def crearmateria():
+        alarma = customtkinter.CTkToplevel()
+        alarma.title("Crear materia")
+        entr=customtkinter.CTkEntry(master = alarma,corner_radius=50,placeholder_text="Ingresa la materia",font=("Helvetica",11))
+        entr.pack(pady=10)
+        alarma.after(201, lambda :alarma.iconbitmap('image\\SERMA.ico'))
+        def creado():
+            logica.crearMateria(entr.get())
+            añadirmaterias()
+            alarma.destroy()
+            alarma.update()
         #aca crear materias nuevas
         #tarea.configure(text="Encontrar palabras magicas")
         #tarea.update()
         #print(tarea.cget("text")) Con esto consigo el text
         #lambda: para que tenga parametros
-        print("Huh")
+        customtkinter.CTkButton(master=alarma,text="Crear",command=creado).pack(pady=10)
 
     #Metodo para eliminar anteriores guias e insertar nuevas guias    
     def añadirguias(materia):
@@ -121,10 +133,29 @@ def iniciosesion():
         borrarInfoDatos()
 
         arregloguia=logica.consultarGuia(materia)
+        #print(arregloguia)
         for guia in  arregloguia: 
             btn = customtkinter.CTkButton(listaguias,text=guia, command=lambda k=[materia,guia]: insertarDatosGuias(k) )           
             btn.pack(pady=10)
-      
+
+    #Metodo para eliminar anteriores materias e insertar nuevas materias         
+    def añadirmaterias():
+        global fit
+        arregloMaterias=logica.consultarMaterias()
+        #arregloMaterias=["Ford", "Volvo", "BMW"]
+        if fit:
+            #print ("bru")
+            #arregloMaterias=["Ford", "Volvo", "BMW","Volkswagen"]
+            for elemento in listamaterias.winfo_children():
+                elemento.destroy()
+            eliminarGuias(listaguias)
+            borrarInfoDatos()
+        for u in  arregloMaterias:
+            btn = customtkinter.CTkButton(listamaterias,text=u, command=lambda j=u: añadirguias(j) )           
+            btn.pack(pady=10)
+        listamaterias.update()
+        fit=True
+        
 
     #Metodo para eliminar los botones de un objeto
     def eliminarGuias(frame):
@@ -139,12 +170,14 @@ def iniciosesion():
         borrarInfoDatos()
 
         datosGuias = logica.consultarDatosGuia(información[0],información[1])
-        descripcion.configure(text=datosGuias[0])
-        tarea.configure(text=datosGuias[1])
+        try:
+            descripcion.configure(text=datosGuias[0])
+            tarea.configure(text=datosGuias[1])
+            descripcion.place(relx=0.6, y=200)
+            tarea.place(relx=0.6, y=400)
+        except TypeError:
+            p=""
 
-
-        descripcion.place(relx=0.6, y=200)
-        tarea.place(relx=0.6, y=400)
 
 
 #Función que borra la información de guias como descripción y tareas de los labels
@@ -180,15 +213,8 @@ def iniciosesion():
             listamaterias=customtkinter.CTkScrollableFrame(app,height=640)
             listaguias=customtkinter.CTkScrollableFrame(app,height=640)
         crearmat=customtkinter.CTkButton(master=app,text="Crear materia",command=crearmateria)
-
         #aca añadir las materias con un for
-        arregloMaterias=logica.consultarMaterias()
-        for u in  arregloMaterias: 
-            btn = customtkinter.CTkButton(listamaterias,text=u, command=lambda j=u: añadirguias(j) )           
-            btn.pack(pady=10)
-
-
-        
+        añadirmaterias()
         if itipo==1:
             listamaterias.place(relx=0.01, y=90)
             listaguias.place(relx=0.2,y=90)
@@ -202,7 +228,7 @@ def iniciosesion():
             guiass.place(relx=0.25,y=40)
     else:
         alerta = customtkinter.CTkToplevel()
-        alerta.title("Recuperar contraseña")
+        alerta.title("Datos incorrectos")
         alerta.after(201, lambda :alerta.iconbitmap('image\\SERMA.ico'))
         Mensaj= customtkinter.CTkLabel(master = alerta,text="Correo y/o contraseña invalidos\nIngresa datos validos", font=("Helvetica",12), fg_color='transparent')
         But=customtkinter.CTkButton(master = alerta, text="Ok",command=finmen)

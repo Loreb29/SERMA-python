@@ -1,4 +1,4 @@
-
+from collections import OrderedDict
 import pyrebase
 
 #Autenticación de la base de datos
@@ -50,12 +50,11 @@ def login(email, password):
     
 
 def crearMateria(materia):
-    try:   
-        db.child("materia").set(materia)
-    except:
-        print("La materia ya existe")
-
-
+    exmat=db.child("materia").get()
+    valu=OrderedDict()
+    valu=exmat.val()
+    valu[materia]=""
+    db.child("materia").set(valu)
 
 
 
@@ -70,7 +69,7 @@ def crearGuia(materia):
 
 #Consulta y devuelve un arreglo con el nombre de las materias 
 def consultarMaterias():
-    lista = db.child("materia").get() 
+    lista = db.child("materia").get()
     return crearArreglo(lista)
 
 
@@ -81,15 +80,24 @@ def consultarGuia(materia):
 
 #Consulta las guias
 def consultarDatosGuia(materia, guia):
-    lista = db.child("materia").child(materia).child(guia).get()  
-    return crearObjecto(lista)
+    lista = db.child("materia").child(materia).child(guia).get()
+    valo=OrderedDict()
+    valo=lista.val()
+    try:
+        listaa=list(valo.values())
+        return listaa
+    except AttributeError:
+        p=""
+    
 
 #Genera un arreglo con los nombre del objeto que pasa
 def crearArreglo(objeto):
     arreglo = []
-    for u in objeto.each():
-        arreglo.append(u.key())
-    
+    try:
+        for u in objeto.each():
+            arreglo.append(u.key())
+    except:
+        print("No hay guias")
     return arreglo
 
 #Genera un arreglo con la información de las guías que pasa
@@ -101,7 +109,7 @@ def crearObjecto(objeto):
     return arreglo
 
 
-print(consultarDatosGuia("ciencias","guia 1"))
+#print(consultarDatosGuia("ciencias","guia 1"))
 
 
 
