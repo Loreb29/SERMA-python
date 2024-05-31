@@ -40,7 +40,7 @@ Contraseñalabel = customtkinter.CTkLabel(app, text="Contraseña", font=("Helvet
 materr= customtkinter.CTkLabel(master = app,text="Materias", font=("Helvetica",20), fg_color='transparent')
 guiass= customtkinter.CTkLabel(master = app,text="Guias", font=("Helvetica",20), fg_color='transparent')
 descripcion=customtkinter.CTkLabel(app,text="Desc Guia", font=("Helvetica",38), fg_color='transparent')
-tarea=customtkinter.CTkLabel(app,text="Tarea Guia", font=("Helvetica",38), fg_color='transparent')
+tarea=customtkinter.CTkLabel(app,text="Tarea Guia", font=("Helvetica",25), fg_color='transparent')
 def devolverse():
     if cuenta==True:
         listamaterias.place_forget()
@@ -133,6 +133,7 @@ def iniciosesion():
         borrarInfoDatos()
 
         arregloguia=logica.consultarGuia(materia)
+        #print(arregloguia)
         for guia in  arregloguia: 
             btn = customtkinter.CTkButton(listaguias,text=guia, command=lambda k=[materia,guia]: insertarDatosGuias(k) )           
             btn.pack(pady=10)
@@ -169,10 +170,14 @@ def iniciosesion():
         borrarInfoDatos()
 
         datosGuias = logica.consultarDatosGuia(información[0],información[1])
-        descripcion.configure(text=datosGuias[0])
-        tarea.configure(text=datosGuias[1])
-        descripcion.place(relx=0.6, y=200)
-        tarea.place(relx=0.6, y=400)
+        try:
+            descripcion.configure(text=datosGuias[0])
+            tarea.configure(text=datosGuias[1])
+            descripcion.place(relx=0.6, y=200)
+            tarea.place(relx=0.6, y=400)
+        except TypeError:
+            p=""
+
 
 
 #Función que borra la información de guias como descripción y tareas de los labels
