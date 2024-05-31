@@ -116,10 +116,11 @@ def iniciosesion():
     def añadirguias(e):
         #aca añadir las guias con un for
         print(e)
-        try:
-            print(e.widget.cget('text'))
-        except:
-          q=""      
+        
+
+             
+
+
     def finmen():
         #se cierra el pop up de mal inicio de sesión
         alerta.destroy()
@@ -149,12 +150,10 @@ def iniciosesion():
         #aca añadir las materias con un for
         listaa=logica.consultarMaterias()
         for x in range (len(listaa)):
-            btn = customtkinter.CTkButton(listamaterias,text=listaa[x])
-            try:
-                btn.configure(command=lambda:añadirguias(btn.cget("text")))
-            except:
-                print("error")
+            btn = customtkinter.CTkButton(listamaterias,text=listaa[x], command=lambda j=listaa[x]: añadirguias(j) )
+            
             btn.pack(pady=10)
+
         descripcion.place(relx=0.6, y=200)
         tarea.place(relx=0.6, y=400)
         if itipo==1:
