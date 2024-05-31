@@ -113,12 +113,45 @@ def iniciosesion():
         #print(tarea.cget("text")) Con esto consigo el text
         #lambda: para que tenga parametros
         print("Huh")
-    def añadirguias(e):
-        #aca añadir las guias con un for
-        print(e)
-        
 
-             
+    #Metodo para eliminar anteriores guias e insertar nuevas guias    
+    def añadirguias(materia):
+        
+        eliminarGuias(listaguias)
+        borrarInfoDatos()
+
+        arregloguia=logica.consultarGuia(materia)
+        for guia in  arregloguia: 
+            btn = customtkinter.CTkButton(listaguias,text=guia, command=lambda k=[materia,guia]: insertarDatosGuias(k) )           
+            btn.pack(pady=10)
+      
+
+    #Metodo para eliminar los botones de un objeto
+    def eliminarGuias(frame):
+        
+        for elemento in frame.winfo_children():
+            elemento.destroy()
+
+
+#Metodo para eliminar el texto informativo e insertar los datos de la guia seleccionada
+    def insertarDatosGuias(información):
+        
+        borrarInfoDatos()
+
+        datosGuias = logica.consultarDatosGuia(información[0],información[1])
+        descripcion.configure(text=datosGuias[0])
+        tarea.configure(text=datosGuias[1])
+
+
+        descripcion.place(relx=0.6, y=200)
+        tarea.place(relx=0.6, y=400)
+
+
+#Función que borra la información de guias como descripción y tareas de los labels
+    def borrarInfoDatos():       
+        descripcion.place_forget()
+        tarea.place_forget()
+
 
 
     def finmen():
@@ -147,16 +180,15 @@ def iniciosesion():
             listamaterias=customtkinter.CTkScrollableFrame(app,height=640)
             listaguias=customtkinter.CTkScrollableFrame(app,height=640)
         crearmat=customtkinter.CTkButton(master=app,text="Crear materia",command=crearmateria)
-        #aca añadir las materias con un for
 
-        listaa=logica.consultarMaterias()
-        for u in listaa: 
+        #aca añadir las materias con un for
+        arregloMaterias=logica.consultarMaterias()
+        for u in  arregloMaterias: 
             btn = customtkinter.CTkButton(listamaterias,text=u, command=lambda j=u: añadirguias(j) )           
             btn.pack(pady=10)
 
 
-        descripcion.place(relx=0.6, y=200)
-        tarea.place(relx=0.6, y=400)
+        
         if itipo==1:
             listamaterias.place(relx=0.01, y=90)
             listaguias.place(relx=0.2,y=90)
