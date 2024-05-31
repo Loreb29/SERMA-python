@@ -148,11 +148,12 @@ def iniciosesion():
             listaguias=customtkinter.CTkScrollableFrame(app,height=640)
         crearmat=customtkinter.CTkButton(master=app,text="Crear materia",command=crearmateria)
         #aca añadir las materias con un for
+
         listaa=logica.consultarMaterias()
-        for x in range (len(listaa)):
-            btn = customtkinter.CTkButton(listamaterias,text=listaa[x], command=lambda j=listaa[x]: añadirguias(j) )
-            
+        for u in listaa: 
+            btn = customtkinter.CTkButton(listamaterias,text=u, command=lambda j=u: añadirguias(j) )           
             btn.pack(pady=10)
+
 
         descripcion.place(relx=0.6, y=200)
         tarea.place(relx=0.6, y=400)
