@@ -35,7 +35,8 @@ def crearUsuario(email, password, nombre , docente):
 def ingresarDatos(user, nombre, docente):
     if( docente == 0):
         db.child("user").child(user).set({ 'nombre':nombre, 'docente':docente } )  
-
+    elif (docente == 1):    
+        db.child("user").child(user).set({ 'nombre':nombre, 'docente':docente } )  
 
 
 #Inicio de sesión que retorna False o True
@@ -78,10 +79,10 @@ def consultarGuia(materia):
     lista = db.child("materia").child(materia).get()    
     return crearArreglo(lista)
 
-
+#Consulta las guias
 def consultarDatosGuia(materia, guia):
     lista = db.child("materia").child(materia).child(guia).get()  
-    return crearArreglo(lista)
+    return crearObjecto(lista)
 
 #Genera un arreglo con los nombre del objeto que pasa
 def crearArreglo(objeto):
@@ -91,7 +92,7 @@ def crearArreglo(objeto):
     
     return arreglo
 
-#Genera un arreglo con los nombre del objeto que pasa
+#Genera un arreglo con la información de las guías que pasa
 def crearObjecto(objeto):
     arreglo = []
     for u in objeto.each():
